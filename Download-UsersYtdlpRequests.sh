@@ -28,7 +28,7 @@ for ytdl_order_path in ${search_command}; do
         cd ~/Downloads
         if test -f "./$command_file"; then
             /usr/local/bin/yt-dlp --limit-rate $dl_speed --batch-file ./$command_file
-            rm ./ytdl.txt
+            rm ./$command_file
         fi
         unset HISTFILE
         exit
