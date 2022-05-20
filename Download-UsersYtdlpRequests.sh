@@ -16,6 +16,7 @@ dl_speed="512K"
 ytdlp_path="/usr/local/bin/yt-dlp"
 nice_command="nice -n 19"
 # End of configuration
+if [ `ps --no-headers -C$0 | wc -l` -gt 1 ]; then exit 2; fi
 unset HISTFILE
 for ytdl_order_path in ${search_command}; do
     user=$(stat -c %U $ytdl_order_path)
@@ -30,9 +31,10 @@ for ytdl_order_path in ${search_command}; do
         cd ~/Downloads
         if test -f "./$command_file"; then
             $nice_command $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file
-            if [ $? == "0" ] then;
+            if [ $? == "0" ]; then
                 rm ./$command_file
-            else; echo "Error while downloading videos (code $?)"
+            else
+                echo "Error while downloading videos (code $?)"
             fi
         fi
         unset HISTFILE
