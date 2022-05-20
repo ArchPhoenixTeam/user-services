@@ -27,10 +27,9 @@ for ytdl_order_path in ${search_command}; do
     group="$?"
     echo $group
     if [[ "$user" != 'root' ]] && [[ $? -eq "0" ]]; then
-        su -s /bin/bash "$user"
-        cd ~/Downloads
+        cd ${ytdl_order_path%/ytdl.txt}
         if test -f "./$command_file"; then
-            $nice_command $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file
+            su -s /bin/bash -c "$nice_command $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file" "$user"
             if [ $? == "0" ]; then
                 rm ./$command_file
             else
