@@ -16,7 +16,7 @@ dl_speed="512K"
 ytdlp_path="/usr/local/bin/yt-dlp"
 nice_command="nice -n 19"
 # End of configuration
-if [ `ps --no-headers -C$0 | wc -l` -gt 1 ]; then exit 2; fi
+if [ `ps --no-headers -Cyt-dlp | wc -l` -gt 0 ]; then exit 2; fi
 unset HISTFILE
 for ytdl_order_path in ${search_command}; do
     user=$(stat -c %U $ytdl_order_path)
