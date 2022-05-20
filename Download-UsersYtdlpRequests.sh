@@ -14,6 +14,7 @@ search_command="/var/services/homes/*/Downloads/$command_file"
 acl_group="grp-acl-svc-a-ytdl"
 dl_speed="512K"
 ytdlp_path="/usr/local/bin/yt-dlp"
+nice_command="nice -n 19"
 # End of configuration
 unset HISTFILE
 for ytdl_order_path in ${search_command}; do
@@ -28,8 +29,11 @@ for ytdl_order_path in ${search_command}; do
         su -s /bin/bash "$user"
         cd ~/Downloads
         if test -f "./$command_file"; then
-            $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file
-            rm ./$command_file
+            $nice_command $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file
+            if [ $? == "0" ] then;
+                rm ./$command_file
+            else; echo "Error while downloading videos (code $?)"
+            fi
         fi
         unset HISTFILE
         exit
