@@ -26,7 +26,7 @@ for ytdl_order_path in ${search_command}; do
     grep $acl_group /etc/group | grep $user > /dev/null
     group="$?"
     echo $group
-    if [[ "$user" != 'root' ]] && [[ $? -eq "0" ]]; then
+    if [[ "$user" != 'root' ]] && [[ $group -eq "0" ]]; then
         cd ${ytdl_order_path%/*}
         if test -f "./$command_file"; then
             su -s /bin/bash -c "$nice_command $ytdlp_path --limit-rate $dl_speed --batch-file ./$command_file" "$user"
